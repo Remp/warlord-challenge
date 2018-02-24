@@ -1,3 +1,4 @@
 export default {
-    STATE_CHANGE: '1'
+    FIGURES_CHANGE: '1',
+    HINTS_CHANGED: '2'
 }

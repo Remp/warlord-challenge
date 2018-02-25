@@ -6,4 +6,8 @@ export default class Step{
         this.y = y;
         this.img = paw;
     }
+    action(figure){
+        figure.x = this.x;
+        figure.y = this.y;
+    }
 }

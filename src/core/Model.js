@@ -2,7 +2,7 @@ import eventemmiter from 'events';
 import constants from './constants';
 import Soldier from './Soldier';
 
-const figures = [new Soldier({x:3, y:2})];
+const figures = [new Soldier({x:3, y:2}), new Soldier({x:3, y:3})];
 let hints = [];
 let selected;
 export default Object.assign({}, eventemmiter.prototype, {
@@ -41,7 +41,19 @@ export default Object.assign({}, eventemmiter.prototype, {
         this.emit(constants.HINTS_CHANGED);
     },
     selectField(x, y){
+        // if hint clicked, then do action according to type of hint
+        for (let i = 0; i < hints.length; i++){
+            const hint = hints[i];
+            if (hint.x === x && hint.y === y){
+                hint.action(selected, figures);
+                selected = null;
+                this._setHints();
+                this.emit(constants.FIGURES_CHANGE);
+                return;
+            }
+        }
         selected = null;
+        // if clicked on figure, then select it
         for (let i = 0; i < figures.length; i++){
             const figure = figures[i];
             if (figure.x === x && figure.y === y){
@@ -49,6 +61,7 @@ export default Object.assign({}, eventemmiter.prototype, {
                 return;
             }
         }
+        // if clicked on empty field, then reset
         this._setSelection();
     },
 })

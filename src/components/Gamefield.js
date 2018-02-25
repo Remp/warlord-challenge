@@ -29,8 +29,8 @@ class Gamefield extends Component{
         this.renderHints();
     }
     onClickHandler(e){
-        const x = Math.floor(e.offsetX / ($(this.gf).innerWidth() / 10))
-        const y = Math.floor(e.offsetY / ($(this.gf).innerWidth() / 10))
+        const x = Math.floor(e.clientX / ($(this.gf).innerWidth() / 10))
+        const y = Math.floor(e.clientY / ($(this.gf).innerWidth() / 10))
         model.selectField(x, y)
     }
     setSize(){
@@ -41,48 +41,50 @@ class Gamefield extends Component{
         else{
             size = window.innerHeight
         }
-        this.gf.width = size;
-        this.gf.height = size;
+        this.gf.width = this.gf.height = size;
+        this.gfF.width = this.gfF.height = size;
+        this.gfH.width = this.gfH.height = size;
+        this.scale = size / 10;
     }
     renderDesk(){
-        const size = model.getSize();
-        const context = this.gf.getContext('2d');
-        const scale = $(this.gf).innerWidth() / 10;
+        const size = model.getFieldSize();
+        this.context = this.gf.getContext('2d');
         for (let i = 0; i < size.w; i++)
             for (let j = 0; j < size.h; j++){
-                context.fillStyle = (i + j) % 2 === 0 ? '#a3b7ce' : '#193351';
-                context.fillRect(i * scale, j * scale, scale, scale);
+                this.context.fillStyle = (i + j) % 2 === 0 ? '#a3b7ce' : '#193351';
+                this.context.fillRect(i * this.scale, j * this.scale, this.scale, this.scale);
             }
-        context.save();
     }
     renderFigures(){
-        const scale = $(this.gf).innerWidth() / 10;
         const figures = model.getFigures();
+        const context = this.gfF.getContext('2d');
+        context.clearRect(0, 0, this.gfF.width, this.gfF.height);
         for (let i = 0; i < figures.length; i++){
             const img = new Image();
             img.src = figures[i].img;
-            img.width = img.height = scale + 'px';
-            img.onload = function(){
-                context.drawImage(img, figures[i].x * scale, figures[i].y * scale);
+            img.onload = () => {
+                context.drawImage(img, figures[i].x * this.scale, figures[i].y * this.scale, this.scale, this.scale);
             }
         }
     }
     renderHints(){
-        const scale = $(this.gf).innerWidth() / 10;
         const hints = model.getHints();
+        const context = this.gfH.getContext('2d');
+        context.clearRect(0, 0, this.gfH.width, this.gfH.height);
         for (let i = 0; i < hints.length; i++){
             const img = new Image();
-            img.src = figures[i].img;
-            img.width = img.height = scale + 'px';
-            img.onload = function(){
-                context.drawImage(img, hints[i].x * scale, hints[i].y * scale);
+            img.src = hints[i].img;
+            img.onload = () => {
+                context.drawImage(img, hints[i].x * this.scale, hints[i].y * this.scale, this.scale, this.scale);
             }
-        }            
+        }  
     }
     render(){
         return (
-            <div className="game-field">
-                <canvas onClick={e => this.onClickHandler(e)} ref={el => this.gf = el}></canvas>
+            <div onClick={e => this.onClickHandler(e)} className="game-field">
+                <canvas ref={el => this.gf = el}></canvas>
+                <canvas ref={el => this.gfF = el}></canvas>
+                <canvas ref={el => this.gfH = el}></canvas>
             </div>
         )
     }

@@ -1,20 +1,9 @@
 import eventemmiter from 'events';
 import constants from './constants';
+import Soldier from './Soldier';
 
-const state = [
-    new Array(10),
-    new Array(10),
-    new Array(10),
-    new Array(10),
-    new Array(10),
-    new Array(10),
-    new Array(10),
-    new Array(10),
-    new Array(10),
-    new Array(10),
-]
-const figures = [];
-const hints = [];
+const figures = [new Soldier({x:3, y:2})];
+let hints = [];
 let selected;
 export default Object.assign({}, eventemmiter.prototype, {
     getFigures(){
@@ -41,18 +30,25 @@ export default Object.assign({}, eventemmiter.prototype, {
     removeHintsChangeListener(callback){
         this.removeListener(constants.HINTS_CHANGED, callback);
     },
+    // choose figure on field
+    _setSelection(figure){
+        selected = figure;
+        this.emit(constants.SELECTION_CHANGED);
+        this._setHints();
+    },
+    _setHints(){
+        hints = selected ? selected.constraints(figures) : [];
+        this.emit(constants.HINTS_CHANGED);
+    },
     selectField(x, y){
         selected = null;
         for (let i = 0; i < figures.length; i++){
             const figure = figures[i];
-            if (figure){
-                selected = figure;
-                this._selectionChanged();
+            if (figure.x === x && figure.y === y){
+                this._setSelection(figure);
+                return;
             }
         }
+        this._setSelection();
     },
-    _selectionChanged(){
-        hints = selected.contraints(figures);
-        this.emit(constants.HINTS_CHANGED, hints);
-    }
 })

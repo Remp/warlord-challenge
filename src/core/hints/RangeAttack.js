@@ -1,7 +1,10 @@
-export default class Attack{
+import red from '../../images/hints/red.svg';
+
+export default class RangeAttack{
     constructor(x, y){
         this.x = x;
         this.y = y;
+        this.img = red;
     }
     action(figure, figures){
         for (let i = 0; i < figures.length; i++){
@@ -11,7 +14,5 @@ export default class Attack{
                 return;
             }
         }
-        figure.x = this.x;
-        figure.y = this.y;
     }
 }

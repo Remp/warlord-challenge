@@ -1,8 +1,9 @@
 import eventemmiter from 'events';
 import constants from './constants';
-import Soldier from './Soldier';
+import Soldier from './figures/servants/Soldier';
+import Archer from './figures/servants/Archer';
 
-const figures = [new Soldier({x:3, y:2}), new Soldier({x:3, y:3})];
+const figures = [new Soldier({x:3, y:2}), new Soldier({x:3, y:3}), new Archer({x: 0, y:5, range: 3})];
 let hints = [];
 let selected;
 export default Object.assign({}, eventemmiter.prototype, {

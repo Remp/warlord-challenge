@@ -1,14 +1,15 @@
-import Figure from './Figure';
-import Step from '../hints/Step';
-import horse from '../../images/figures/horse.svg';
-import Attack from '../hints/Attack';
+import Servant from './Servant';
+import Step from '../../hints/Step';
+import horse from '../../../images/figures/horse.svg';
+import Attack from '../../hints/Attack';
 
-export default class Soldier extends Figure{
+export default class Soldier extends Servant{
     constructor(params){
         super(params);
         this.img = horse;
     }
-    constraints(figures){
+    constraints(model){
+        const figures = model.getFigures();
         const ret = [];
         // find targets to kill
         for (let i = 0; i < figures.length; i++){

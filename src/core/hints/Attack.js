@@ -14,12 +14,13 @@ export default class Attack{
                 continue;
             if (this.x === f.x && this.y === f.y){
                 figures.splice(i, 1);
+                if (this.isMove){
+                    selected.x = this.x;
+                    selected.y = this.y;
+                }
                 return;
             }
         }
-        if (this.isMove){
-            selected.x = this.x;
-            selected.y = this.y;
-        }
+        
     }
 }

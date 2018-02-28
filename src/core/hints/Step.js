@@ -1,10 +1,10 @@
-import paw from '../../images/hints/paw.png';
+import green from '../../images/hints/green.svg';
 
 export default class Step{
     constructor(x, y){
         this.x = x;
         this.y = y;
-        this.img = paw;
+        this.img = green;
     }
     action(figure){
         figure.x = this.x;

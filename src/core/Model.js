@@ -2,8 +2,14 @@ import eventemmiter from 'events';
 import constants from './constants';
 import Soldier from './figures/servants/Soldier';
 import Archer from './figures/servants/Archer';
+import Kiroku from './figures/heroes/Kiroku';
 
-const figures = [new Soldier({x:3, y:2}), new Soldier({x:3, y:3}), new Archer({x: 0, y:5, range: 3})];
+const figures = [
+    new Soldier({x:3, y:2}), 
+    new Soldier({x:3, y:3}), 
+    new Archer({x: 0, y:5, range: 3}),
+    new Kiroku({x: 0, y:0})
+];
 let hints = [];
 let selected;
 export default Object.assign({}, eventemmiter.prototype, {
@@ -38,7 +44,7 @@ export default Object.assign({}, eventemmiter.prototype, {
         this._setHints();
     },
     _setHints(){
-        hints = selected ? selected.constraints(figures) : [];
+        hints = selected ? selected.constraints(this) : [];
         this.emit(constants.HINTS_CHANGED);
     },
     selectField(x, y){

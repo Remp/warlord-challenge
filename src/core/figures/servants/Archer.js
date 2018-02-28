@@ -16,7 +16,8 @@ export default class Archer extends Servant{
         const targets = this._getMostNear(figures, ['up', 'down', 'right', 'left']);
         for (let i = 0; i < targets.length; i++){
             const figure = targets[i];
-            ret.push(new Attack(figure.x, figure.y, false));
+            if (figure.suit !== this.suit)
+                ret.push(new Attack(figure.x, figure.y, false));
         }
         // find free cells to move
         const availableCells = [

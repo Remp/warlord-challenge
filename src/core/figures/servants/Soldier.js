@@ -22,7 +22,7 @@ export default class Soldier extends Servant{
             const figure = figures[i];
             for (let j = 0; j < availableCells.length; j++){
                 const cell = availableCells[j];
-                if (figure.x === cell.x && figure.y === cell.y)
+                if (figure.x === cell.x && figure.y === cell.y && figure.suit !== this.suit)
                     ret.push(new Attack(cell.x, cell.y))
             }
         }
